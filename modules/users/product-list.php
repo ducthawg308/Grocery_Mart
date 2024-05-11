@@ -4,7 +4,7 @@ if (!defined('_CODE')) {
 }
 
 $data = [
-    'pageTitle' => 'Users list'
+    'pageTitle' => 'Product list'
 ];
 
 $listUsers = getRaw("SELECT * FROM users ORDER BY update_at ");

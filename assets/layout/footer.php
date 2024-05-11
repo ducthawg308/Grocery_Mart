@@ -101,7 +101,7 @@ if(!defined('_CODE')){
                     <li>
                         <p class="footer__label">Address</p>
                         <p class="footer__text">
-                            No. 11D, Lot A10, Nam Trung Yen urban area, Yen Hoa Ward, Cau Giay District, City. Hanoi
+                            No. 11D, Lot A10, Nam Trung Yen urban area, Vinh Trung Ward, Thanh Khe District, City. DaNang
                         </p>
                     </li>
                     <li>
