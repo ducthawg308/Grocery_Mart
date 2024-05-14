@@ -7,7 +7,7 @@ $data = [
     'pageTitle' => 'Product list'
 ];
 
-$listUsers = getRaw("SELECT * FROM users ORDER BY update_at ");
+$listProducts = getRaw("SELECT * FROM product");
 
 $msg = getFlashData('msg');
 $msg_type = getFlashData('msg_type');
@@ -48,8 +48,8 @@ $msg_type = getFlashData('msg_type');
                 <div class="container">
                     <div class="table">
                         <section class="table__header">
-                            <h1 class="table__header-heading">Quản lý người dùng</h1>
-                            <a href="?module=users&action=add" class="btn-success add-user">Thêm người dùng <i class="fa-solid fa-plus"></i></a>
+                            <h1 class="table__header-heading">Danh sách sản phẩm</h1>
+                            <a href="?module=users&action=product-add" class="btn-success add-user">Thêm sản phẩm <i class="fa-solid fa-plus"></i></a>
                             <?php
                                 if(!empty($msg)){
                                     getMsg($msg,$msg_type);
@@ -60,28 +60,39 @@ $msg_type = getFlashData('msg_type');
                             <table>
                                 <thead>
                                     <th>STT</th>
-                                    <th>Họ tên</th>
-                                    <th>Email</th>
-                                    <th>Số điện thoại</th>
-                                    <th>Trạng thái</th>
+                                    <th>Danh mục</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Ảnh</th>
+                                    <th>Nhà sản xuất</th>
+                                    <th>Giá</th>
+                                    <th>Giảm giá</th>
+                                    <th>Mô tả</th>
                                     <th>Sửa</th>
                                     <th>Xóa</th>
                                 </thead>
                                 <tbody>
                                     <?php
-                                        if(!empty($listUsers)):
+                                        if(!empty($listProducts)):
                                             $count = 0;
-                                            foreach($listUsers as $item):
+                                            foreach($listProducts as $item):
                                                 $count++;
                                     ?>
                                         <tr>
                                             <td><?php echo $count; ?></td>
-                                            <td><?php echo $item['fullname']; ?></td>
-                                            <td><?php echo $item['email']; ?></td>
-                                            <td><?php echo $item['phone']; ?></td>
-                                            <td><?php echo $item['status'] == '1' ? '<button class="btn-success">Đã kích hoạt</button>' : '<button class="btn-error">Chưa kích hoạt</button>'; ?></td>
-                                            <td><a href="<?php echo _WEB_HOST; ?>?module=users&action=edit&id=<?php echo $item['id'] ?>" class="btn-edit"><i class="fa-solid fa-pen-to-square"></i></a></td>
-                                            <td><a href="<?php echo _WEB_HOST; ?>?module=users&action=delete&id=<?php echo $item['id'] ?>"class="btn-delete" onclick="return confirm('Bạn có chắc chắn muốn xóa user này?')"><i class="fa-solid fa-trash"></i></a></td>
+                                            <td>
+                                                <?php
+                                                    $category =  oneRaw("SELECT name FROM category WHERE id='$item[category_id]'");
+                                                    echo $category['name'];
+                                                ?>
+                                            </td>
+                                            <td><?php echo $item['title']; ?></td>
+                                            <td><img class="product-img" src="<?php echo $item['thumbnail']; ?>" alt=""></td>
+                                            <td><?php echo $item['brand']; ?></td>
+                                            <td><?php echo $item['price']; ?></td>
+                                            <td><?php echo $item['discount']; ?></td>
+                                            <td style="width:25%;"><p class="product-desc"><?php echo $item['description']; ?></p></td>
+                                            <td><a href="<?php echo _WEB_HOST; ?>?module=users&action=product-edit&id=<?php echo $item['id'] ?>" class="btn-edit"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                                            <td><a href="<?php echo _WEB_HOST; ?>?module=users&action=product-delete&id=<?php echo $item['id'] ?>"class="btn-delete" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')"><i class="fa-solid fa-trash"></i></a></td>
                                         </tr>
                                     <?php
                                             endforeach;

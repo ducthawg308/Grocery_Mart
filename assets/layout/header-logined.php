@@ -1,3 +1,10 @@
+<?php
+    $email = getSession('emailUser');
+    // Truy vấn thông tin users
+    $userQuery = oneRaw("SELECT fullname FROM users WHERE email = '$email'");
+    $username = strstr($email, '@', true);
+    $fullname = $userQuery['fullname'];
+?>
 <header id="header" class="header">
         <div class="container">
             <div class="top-bar">
@@ -18,13 +25,13 @@
                         <img class="icon" src="./assets/icons/arrow-left.svg" alt="" />
                     </button>
 
-                    <a href="./checkout.html" class="nav-btn d-none d-md-flex">
+                    <a href="?module=page&action=checkout" class="nav-btn d-none d-md-flex">
                         <img src="./assets/icons/buy.svg" alt="" class="nav-btn__icon icon" />
                         <span class="nav-btn__title">Cart</span>
                         <span class="nav-btn__qnt">3</span>
                     </a>
 
-                    <a href="#!" class="nav-btn d-none d-md-flex">
+                    <a href="?module=page&action=favourite" class="nav-btn d-none d-md-flex">
                         <img src="./assets/icons/heart.svg" alt="" class="nav-btn__icon icon" />
                         <span class="nav-btn__title">Favorite</span>
                         <span class="nav-btn__qnt">3</span>
@@ -4564,7 +4571,7 @@
                                     <img src="./assets/icons/arrow-up.png" alt="" class="act-dropdown__arrow" />
                                     <div class="act-dropdown__top">
                                         <h2 class="act-dropdown__title">You have 3 item(s)</h2>
-                                        <a href="./favourite.html" class="act-dropdown__view-all">See All</a>
+                                        <a href="?module=page&action=favourite" class="act-dropdown__view-all">See All</a>
                                     </div>
                                     <div class="row row-cols-3 gx-2 act-dropdown__list">
                                         <!-- Cart preview item 1 -->
@@ -4615,7 +4622,7 @@
                                     <div class="act-dropdown__separate"></div>
                                     <div class="act-dropdown__checkout">
                                         <a
-                                            href="./checkout.html"
+                                            href="?module=page&action=checkout"
                                             class="btn btn--primary btn--rounded act-dropdown__checkout-btn"
                                         >
                                             Check Out All
@@ -4639,7 +4646,7 @@
                                     <img src="./assets/icons/arrow-up.png" alt="" class="act-dropdown__arrow" />
                                     <div class="act-dropdown__top">
                                         <h2 class="act-dropdown__title">You have 3 item(s)</h2>
-                                        <a href="./checkout.html" class="act-dropdown__view-all">See All</a>
+                                        <a href="?module=page&action=checkout" class="act-dropdown__view-all">See All</a>
                                     </div>
                                     <div class="row row-cols-3 gx-2 act-dropdown__list">
                                         <!-- Cart preview item 1 -->
@@ -4707,7 +4714,7 @@
                                     </div>
                                     <div class="act-dropdown__checkout">
                                         <a
-                                            href="./checkout.html"
+                                            href="?module=page&action=checkout"
                                             class="btn btn--primary btn--rounded act-dropdown__checkout-btn"
                                         >
                                             Check Out All
@@ -4733,17 +4740,17 @@
                                 <div class="user-menu__top">
                                     <img src="./assets/img/avatar.jpg" alt="" class="user-menu__avatar" />
                                     <div>
-                                        <p class="user-menu__name">John Smith</p>
-                                        <p>@johnsmith</p>
+                                        <p class="user-menu__name"><?php echo $fullname ?></p>
+                                        <p>@<?php echo $username ?></p>
                                     </div>
                                 </div>
 
                                 <ul class="user-menu__list">
                                     <li>
-                                        <a href="./profile.html" class="user-menu__link">Profile</a>
+                                        <a href="?module=page&action=profile" class="user-menu__link">Profile</a>
                                     </li>
                                     <li>
-                                        <a href="./favourite.html" class="user-menu__link">Favourite list</a>
+                                        <a href="?module=page&action=favourite" class="user-menu__link">Favourite list</a>
                                     </li>
                                     <li class="user-menu__separate">
                                         <a href="#!" class="user-menu__link" id="switch-theme-btn">

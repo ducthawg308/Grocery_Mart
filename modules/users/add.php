@@ -1,4 +1,4 @@
-<!-- Đăng ký tài khoản -->
+<!-- Thêm người dùng -->
 <?php
 if(!defined('_CODE')){
     die('Access denied...');

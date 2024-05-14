@@ -19,29 +19,36 @@ if(isPost()){
     if(!empty(trim($filterAll['email'])) && !empty(trim($filterAll['password']))){
         $email = $filterAll['email'];
         $password = $filterAll['password'];
+        $emailUser = setSession('emailUser',$email);
 
         // Truy vấn thông tin users
-        $userQuery = oneRaw("SELECT password, id FROM users WHERE email = '$email'");
+        $userQuery = oneRaw("SELECT password, id, status FROM users WHERE email = '$email'");
 
         if(!empty($userQuery)){
             $passwordHash = $userQuery['password'];
             $user_id = $userQuery['id'];
+            $status = $userQuery['status'];
             if(password_verify($password,$passwordHash)){
-                // Tạo và insert token login
-                $tokenLogin = sha1(uniqid().time());
-                $dataInsert = [
-                    'user_id' => $user_id,
-                    'token' => $tokenLogin,
-                    'create_at' => date('Y-m-d H:i:s')
-                ];
-                $insertStatus = insert('tokenlogin',$dataInsert);
-                if($insertStatus){
-                    // Lưu loginToken vào session
-                    setSession('loginToken', $tokenLogin);
+                if($status == 1){
+                    // Tạo và insert token login
+                    $tokenLogin = sha1(uniqid().time());
+                    $dataInsert = [
+                        'user_id' => $user_id,
+                        'token' => $tokenLogin,
+                        'create_at' => date('Y-m-d H:i:s')
+                    ];
+                    $insertStatus = insert('tokenlogin',$dataInsert);
+                    if($insertStatus){
+                        // Lưu loginToken vào session
+                        setSession('loginToken', $tokenLogin);
 
-                    redirect('?module=home&action=dashboard');
+                        redirect('?module=home&action=dashboard');
+                    }else{
+                        setFlashData('msg','Không thể đăng nhập, vui lòng thử lại sau.');
+                        setFlashData('msg_type','error');
+                    }
                 }else{
-                    setFlashData('msg','Không thể đăng nhập, vui lòng thử lại sau.');
+                    setFlashData('msg','Tài khoản chưa được kích hoạt, vui lòng kiểm tra email để kích hoạt tài khoản.');
                     setFlashData('msg_type','error');
                 }
             }else{
@@ -58,7 +65,7 @@ if(isPost()){
     }
     redirect('?module=auth&action=login');
 }
-
+    
 $msg = getFlashData('msg');
 $msg_type = getFlashData('msg_type');
 

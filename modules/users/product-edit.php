@@ -1,7 +1,20 @@
-<!-- Thêm sản phẩm -->
+<!-- Đăng ký tài khoản -->
 <?php
 if(!defined('_CODE')){
     die('Access denied...');
+}
+
+$filterAll = filter();
+if(!empty($filterAll['id'])){
+    $productId = $filterAll['id'];
+    $productDetail = oneRaw("SELECT * FROM product WHERE id = '$productId'");
+    if(!empty($productDetail)){
+        setFlashData('product-detail',$productDetail);
+    }else{
+        redirect('?module=users&action=product-list');
+    }
+}else{
+    redirect('?module=users&action=product-list');
 }
 
 $category = getRaw("SELECT * FROM category");
@@ -39,11 +52,7 @@ if(isPost()){
     }
 
     if(empty($error)){
-        $thumbnail = $_FILES["thumbnail"]["name"];
-        $thumbnail_tmp = $_FILES["thumbnail"]["tmp_name"];
-        
-        $dataInsert = [
-            'thumbnail' => "./assets/img/product/" . $thumbnail,
+        $dataUpdate = [
             'category_id' => $filterAll['category_id'],
             'title' => $filterAll['title'],
             'brand' => $filterAll['brand'],
@@ -52,30 +61,28 @@ if(isPost()){
             'description' => $filterAll['description']
         ];
 
-        $insertStatus = insert('product', $dataInsert);
-        move_uploaded_file($thumbnail_tmp, "./assets/img/product/".$thumbnail);
+        $condition = "id = $productId";
+        $updateStatus = update('product', $dataUpdate, $condition);
         
-        if($insertStatus){
-            setFlashData('msg','Thêm sản phẩm mới thành công!');
+        if($updateStatus){
+            setFlashData('msg','Sửa sản phẩm thành công!');
             setFlashData('msg_type','success');
-            redirect('?module=users&action=product-list');
         }else{
             setFlashData('msg','Hệ thống đang lỗi, vui lòng thử lại sau!');
             setFlashData('msg_type','error');
-            redirect('?module=users&action=product-add');
         }
     }else{
         setFlashData('msg','Vui lòng kiểm tra lại dữ liệu!');
         setFlashData('msg_type','error');
         setFlashData('error',$error);
         setFlashData('old',$filterAll);
-        redirect('?module=users&action=product-add');
     }
+    redirect('?module=users&action=product-edit&id='.$userId);
 }
 
 
 $data = [
-    'pageTitle' => 'Thêm sản phẩm | Grocery Mart'
+    'pageTitle' => 'Sửa sản phẩm | Grocery Mart'
 ];
 layouts('header',$data);
 
@@ -83,6 +90,10 @@ $msg = getFlashData('msg');
 $msg_type = getFlashData('msg_type');
 $errors = getFlashData('error');
 $old = getFlashData('old');
+$productDetailll = getFlashData('product-detail');
+if(!empty($productDetailll)){
+    $old = $productDetailll;
+}
 
 ?>
 
@@ -94,27 +105,19 @@ $old = getFlashData('old');
                 <img src="./assets/icons/logo.svg" alt="grocerymart" class="logo__img" />
                 <h1 class="logo__title">grocerymart</h1>
             </a>
-            <h1 class="auth__heading">Thêm sản phẩm</h1>
+            <h1 class="auth__heading">Sửa sản phẩm</h1>
             <?php
                 if(!empty($msg)){
                     getMsg($msg,$msg_type);
                 } 
             ?>
-            <form action="" method="post" class="auth__form" enctype="multipart/form-data">
-                <div class="form__group">
-                    <div class="form__text-input">
-                        <input type="file" name="thumbnail" id="">
-                    </div>
-                    <?php
-                        echo form_error('thumbnail','<span class="form__message-error">','</span>',$errors);
-                    ?>
-                </div>
+            <form action="" method="post" class="auth__form">
                 <div class="form__group">
                     <select name="category_id" id="" class="form__control">
                         <?php
                             foreach($category as $item):
                         ?>
-                        <option value="<?php echo ($item['id']); ?>"><?php echo($item['name']); ?></option>
+                        <option value="<?php echo ($item['id']); ?>"<?php echo old('category_id',$old)==$item['id'] ? 'selected' : false; ?>><?php echo($item['name']); ?></option>
                         <?php
                             endforeach;
                         ?>
@@ -165,8 +168,9 @@ $old = getFlashData('old');
                         echo form_error('description','<span class="form__message-error">','</span>',$errors);
                     ?>
                 </div>
+                <input type="hidden" name="id" id="" value="<?php echo $productId ?>">
                 <div class="form__group auth__btn-group">
-                    <button type="submit" name="submit" class="btn btn--primary auth__btn">Thêm sản phẩm</button>
+                    <button type="submit" class="btn btn--primary auth__btn">Sửa sản phẩm</button>
                     <a href="?module=users&action=product-list" class="btn btn--outline auth__btn" style="margin: 0;">Quay lại</a>
                 </div>
             </form>
