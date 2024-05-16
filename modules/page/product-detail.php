@@ -6,6 +6,13 @@ if (!defined('_CODE')) {
 $data = [
     'pageTitle' => 'Grocery Mart'
 ];
+
+$filterAll = filter();
+if(!empty($filterAll['id'])){
+    $productId = $filterAll['id'];
+    $productDetail = oneRaw("SELECT * FROM product WHERE id = '$productId'");
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -86,7 +93,7 @@ $data = [
                                     <div class="prod-preview">
                                         <div class="prod-preview__list">
                                             <div class="prod-preview__item">
-                                                <img src="./assets/img/product/item-1.png" alt="" class="prod-preview__img" />
+                                                <img src="<?php echo $productDetail['thumbnail'] ?>" alt="" class="prod-preview__img" />
                                             </div>
                                             <div class="prod-preview__item">
                                                 <img src="./assets/img/product/item-2.png" alt="" class="prod-preview__img" />
@@ -100,7 +107,7 @@ $data = [
                                         </div>
                                         <div class="prod-preview__thumbs">
                                             <img
-                                                src="./assets/img/product/item-1.png"
+                                                src="<?php echo $productDetail['thumbnail'] ?>"
                                                 alt=""
                                                 class="prod-preview__thumb-img prod-preview__thumb-img--current"
                                             />
@@ -114,7 +121,7 @@ $data = [
                                     <form action="" class="form">
                                         <section class="prod-info">
                                             <h1 class="prod-info__heading">
-                                                Coffee Beans - Espresso Arabica and Robusta Beans
+                                                <?php echo $productDetail['title'] ?>
                                             </h1>
                                             <div class="row">
                                                 <div class="col-5 col-xxl-6 col-xl-12">
@@ -185,10 +192,10 @@ $data = [
                                                         </div>
                                                         <div class="prod-info__card">
                                                             <div class="prod-info__row">
-                                                                <span class="prod-info__price">$500.00</span>
+                                                                <span class="prod-info__price"><?php echo number_format($productDetail['price'], 0, ',', '.');?>đ</span>
                                                                 <span class="prod-info__tax">10%</span>
                                                             </div>
-                                                            <p class="prod-info__total-price">$540.00</p>
+                                                            <p class="prod-info__total-price"><?php echo number_format($productDetail['discount'], 0, ',', '.');?>đ</p>
                                                             <div class="prod-info__row">
                                                                 <button class="btn btn--primary prod-info__add-to-cart">
                                                                     Add to cart
@@ -229,98 +236,12 @@ $data = [
                                         <div class="row">
                                             <div class="col-8 col-xl-10 col-lg-12">
                                                 <div class="text-content prod-tab__text-content">
-                                                    <h2>Lorem ipsum dolor sit amet.</h2>
+                                                    <h2><?php echo $productDetail['title'] ?></h2>
                                                     <p>
-                                                        Lorem ipsum dolor sit amet <a href="#!">consectetur</a> adipisicing
-                                                        elit. Aliquid, cupiditate. Modi, quidem, ullam sint dolorum recusandae
-                                                        voluptates dignissimos similique animi assumenda
-                                                        <a href="#!">praesentium</a> et! Illum dolorem est rem voluptas nam!
-                                                        Voluptatem.
-                                                    </p>
-                                                    <h3>Lorem ipsum dolor sit amet.</h3>
-                                                    <p>
-                                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid,
-                                                        cupiditate. Modi, quidem, ullam sint dolorum recusandae voluptates
-                                                        dignissimos similique animi assumenda praesentium et! Illum dolorem est
-                                                        rem voluptas nam! Voluptatem.
+                                                        <?php echo $productDetail['description'] ?>
                                                     </p>
                                                     <p>
-                                                        <img src="./assets/img/product/item-1.png" alt="" />
-                                                        <em>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</em>
-                                                    </p>
-                                                    <blockquote>
-                                                        <p>
-                                                            Lorem ipsum dolor sit amet <em>consectetur</em>
-                                                            <u>adipisicing</u> elit. Aliquid, cupiditate. Modi, quidem, ullam
-                                                            sint dolorum recusandae voluptates dignissimos similique animi
-                                                            assumenda praesentium et! Illum dolorem est rem voluptas nam!
-                                                            Voluptatem.
-                                                        </p>
-                                                    </blockquote>
-                                                    <h3>Lorem ipsum dolor sit amet.</h3>
-                                                    <p>
-                                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid,
-                                                        cupiditate. Modi, quidem, ullam sint dolorum recusandae voluptates
-                                                        dignissimos similique animi assumenda praesentium et! Illum dolorem est
-                                                        rem voluptas nam! Voluptatem.
-                                                    </p>
-                                                    <p>
-                                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid,
-                                                        cupiditate. Modi, quidem, ullam sint dolorum recusandae voluptates
-                                                        dignissimos similique animi assumenda praesentium et! Illum dolorem est
-                                                        rem voluptas nam! Voluptatem.
-                                                    </p>
-
-                                                    <hr />
-
-                                                    <h2>Lorem ipsum dolor sit amet.</h2>
-                                                    <p>
-                                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid,
-                                                        cupiditate. Modi, quidem, ullam sint dolorum recusandae voluptates
-                                                        dignissimos similique animi assumenda praesentium et! Illum dolorem est
-                                                        rem voluptas nam! Voluptatem.
-                                                    </p>
-                                                    <p>
-                                                        <img src="./assets/img/product/item-1.png" alt="" />
-                                                        <em>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</em>
-                                                    </p>
-                                                    <p>
-                                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid,
-                                                        cupiditate. Modi, quidem, ullam sint dolorum recusandae voluptates
-                                                        dignissimos similique animi assumenda praesentium et! Illum dolorem est
-                                                        rem voluptas nam! Voluptatem.
-                                                    </p>
-                                                    <p>
-                                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid,
-                                                        cupiditate. Modi, quidem, ullam sint dolorum recusandae voluptates
-                                                        dignissimos similique animi assumenda praesentium et! Illum dolorem est
-                                                        rem voluptas nam! Voluptatem.
-                                                    </p>
-
-                                                    <hr />
-
-                                                    <h2>Lorem ipsum dolor sit amet.</h2>
-                                                    <p>
-                                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid,
-                                                        cupiditate. Modi, quidem, ullam sint dolorum recusandae voluptates
-                                                        dignissimos similique animi assumenda praesentium et! Illum dolorem est
-                                                        rem voluptas nam! Voluptatem.
-                                                    </p>
-                                                    <p>
-                                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid,
-                                                        cupiditate. Modi, quidem, ullam sint dolorum recusandae voluptates
-                                                        dignissimos similique animi assumenda praesentium et! Illum dolorem est
-                                                        rem voluptas nam! Voluptatem.
-                                                    </p>
-                                                    <p>
-                                                        <img src="./assets/img/product/item-1.png" alt="" />
-                                                        <em>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</em>
-                                                    </p>
-                                                    <p>
-                                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid,
-                                                        cupiditate. Modi, quidem, ullam sint dolorum recusandae voluptates
-                                                        dignissimos similique animi assumenda praesentium et! Illum dolorem est
-                                                        rem voluptas nam! Voluptatem.
+                                                        <img src="<?php echo $productDetail['thumbnail'] ?>" alt="" />
                                                     </p>
                                                 </div>
                                             </div>

@@ -1,6 +1,12 @@
 <?php
 
-$productList = getRaw("SELECT title, brand, discount, thumbnail FROM product");
+$item_per_page = !empty($_GET['per_page'])?$_GET['per_page']:5;
+$current_page = !empty($_GET['page'])?$_GET['page']:1;
+$offset = ($current_page - 1) * $item_per_page;
+$productList = getRaw("SELECT id, title, brand, discount, thumbnail FROM product ORDER BY id ASC LIMIT $item_per_page OFFSET $offset");
+$totalProduct = getRows("SELECT * FROM product");
+$totalPages = ceil($totalProduct/$item_per_page);
+
 ?>
 <!-- Browse Products -->
 <section class="home__container">
@@ -145,7 +151,7 @@ $productList = getRaw("SELECT title, brand, discount, thumbnail FROM product");
             <div class="col">
                 <article class="product-card">
                     <div class="product-card__img-wrap">
-                        <a href="?module=page&action=product-detail">
+                        <a href="<?php echo _WEB_HOST; ?>?module=page&action=product-detail&id=<?php echo $item['id'] ?>">
                             <img src="<?php echo $item['thumbnail'] ?>" alt="" class="product-card__thumb" />
                         </a>
                         <button class="like-btn product-card__like-btn">
@@ -154,11 +160,11 @@ $productList = getRaw("SELECT title, brand, discount, thumbnail FROM product");
                         </button>
                     </div>
                     <h3 class="product-card__title">
-                        <a href="?module=page&action=product-detail"><?php echo $item['title'] ?></a>
+                        <a href="<?php echo _WEB_HOST; ?>?module=page&action=product-detail&id=<?php echo $item['id'] ?>"><?php echo $item['title'] ?></a>
                     </h3>
                     <p class="product-card__brand"><?php echo $item['brand'] ?></p>
                     <div class="product-card__row">
-                        <span class="product-card__price"><?php echo $item['discount'] ?></span>
+                        <span class="product-card__price"><?php echo number_format($item['discount'], 0, ',', '.'); ?>đ</span>
                         <img src="./assets/icons/star.svg" alt="" class="product-card__star" />
                         <span class="product-card__score">4.3</span>
                     </div>
@@ -169,5 +175,53 @@ $productList = getRaw("SELECT title, brand, discount, thumbnail FROM product");
             endif;
         ?>
     </div>
+    <div class="pagination-wrap">
+        <ul class="pagination">
+            <?php if($current_page > 3) { ?>
+                <li class="pagenation__chenvron">
+                    <a href="?per_page=<?php echo $item_per_page ?>&page=1" class="pagenation__chenvron-link">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </a>
+                </li>
+            <?php } ?>
+
+            <?php if($current_page > 1) { 
+                $prev_page = $current_page - 1;?>
+                <li class="pagination__num">
+                    <a href="?per_page=<?php echo $item_per_page ?>&page=<?php echo $prev_page ?>" class="pagination__num-link">Prev</a>
+                </li>
+            <?php } ?>
+            
+            <?php
+                for($num = 1; $num<=$totalPages; $num++){?>
+                    <?php if($num != $current_page){ ?>
+                        <?php if($num > $current_page - 3 && $num < $current_page + 3) { ?>
+                            <li class="pagination__num">
+                                <a href="?per_page=<?php echo $item_per_page ?>&page=<?php echo $num ?>" class="pagination__num-link"><?php echo $num ?></a>
+                            </li>
+                        <?php } ?>
+                    <?php } else { ?>
+                        <li class="pagination__num">
+                            <a class="pagination__num-link pagination__num-link--active"><?php echo $num ?></a>
+                        </li>
+                    <?php } ?>
+                <?php }
+            ?>
+
+            <?php if($current_page < $totalPages - 1) { 
+                $prev_page = $current_page + 1;?>
+                <li class="pagination__num">
+                    <a href="?per_page=<?php echo $item_per_page ?>&page=<?php echo $prev_page ?>" class="pagination__num-link">Next</a>
+                </li>
+            <?php } ?>
+
+            <?php if($current_page < $totalPages - 3) { ?>
+                <li class="pagenation__chenvron">
+                    <a href="?per_page=<?php echo $item_per_page ?>&page=<?php echo $totalPages ?>" class="pagenation__chenvron-link">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                </li>
+            <?php } ?>
+        </ul>
+    </div>
 </section>
-<?php ?>

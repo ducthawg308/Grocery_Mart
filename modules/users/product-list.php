@@ -7,7 +7,7 @@ $data = [
     'pageTitle' => 'Product list'
 ];
 
-$listProducts = getRaw("SELECT * FROM product");
+$listProducts = getRaw("SELECT product.*, category.name FROM product JOIN category ON product.category_id = category.id");
 
 $msg = getFlashData('msg');
 $msg_type = getFlashData('msg_type');
@@ -81,8 +81,7 @@ $msg_type = getFlashData('msg_type');
                                             <td><?php echo $count; ?></td>
                                             <td>
                                                 <?php
-                                                    $category =  oneRaw("SELECT name FROM category WHERE id='$item[category_id]'");
-                                                    echo $category['name'];
+                                                    echo $item['name'];
                                                 ?>
                                             </td>
                                             <td><?php echo $item['title']; ?></td>

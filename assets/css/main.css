@@ -2558,7 +2558,7 @@ html {
   margin-top: 16px;
 }
 .product-card__title, .product-card__price, .product-card__score {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: 500;
   line-height: 150%;
 }
@@ -3579,6 +3579,35 @@ html {
   font-size: 2.2rem;
   font-weight: 500;
   line-height: 145.455%;
+}
+
+.pagination-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination {
+  display: inline-flex;
+  column-gap: 30px;
+  margin-top: 30px;
+  background-color: white;
+  padding: 16px 20px;
+  border-radius: 8px;
+}
+.pagination__num-link {
+  padding: 10px 12px;
+}
+.pagination__num-link:hover {
+  color: #23adad;
+}
+.pagination__num-link--active {
+  background-color: #23adad;
+  border-radius: 6px;
+  color: white;
+}
+.pagination__num-link--active:hover {
+  color: white;
 }
 
 .home {
