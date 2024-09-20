@@ -19,10 +19,11 @@ if(isPost()){
     if(!empty(trim($filterAll['email'])) && !empty(trim($filterAll['password']))){
         $email = $filterAll['email'];
         $password = $filterAll['password'];
-        $emailUser = setSession('emailUser',$email);
+        setSession('emailUser',$email);
 
         // Truy vấn thông tin users
         $userQuery = oneRaw("SELECT password, id, status FROM users WHERE email = '$email'");
+        setSession('id_user',$userQuery['id']);
 
         if(!empty($userQuery)){
             $passwordHash = $userQuery['password'];

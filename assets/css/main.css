@@ -222,6 +222,17 @@ strong {
   background: var(--separate-color);
 }
 
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 .row > *, .container-fluid, .container {
   padding-left: calc(var(--grid-gutter-x) * 0.5);
   padding-right: calc(var(--grid-gutter-x) * 0.5);
@@ -4364,6 +4375,13 @@ html {
 }
 .cart-item__input-btn {
   display: flex;
+}
+.cart-item__input-quantity {
+  font-size: 16px;
+  font-weight: 400;
+  height: inherit;
+  text-align: center;
+  width: 28px;
 }
 .cart-item__total-price {
   font-size: 2.2rem;

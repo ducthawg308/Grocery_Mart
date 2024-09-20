@@ -102,12 +102,12 @@ $data = [
                                                                 />
                                                             </div>
                                                             <div class="cart-item__input">
-                                                                <button class="cart-item__input-btn">
-                                                                    <img class="icon" src="./assets/icons/minus.svg" alt="" />
+                                                                <button class="cart-item__input-btn" id="decrease-btn">
+                                                                    <img class="icon" src="./assets/icons/minus.svg" alt="Decrease" />
                                                                 </button>
-                                                                <span>1</span>
-                                                                <button class="cart-item__input-btn">
-                                                                    <img class="icon" src="./assets/icons/plus.svg" alt="" />
+                                                                <input type="number" class="cart-item__input-quantity" id="quantity-input" value="1" min="1">
+                                                                <button class="cart-item__input-btn" id="increase-btn">
+                                                                    <img class="icon" src="./assets/icons/plus.svg" alt="Increase" />
                                                                 </button>
                                                             </div>
                                                         </div>

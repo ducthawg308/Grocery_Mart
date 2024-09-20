@@ -7,7 +7,8 @@ $data = [
     'pageTitle' => 'Users list'
 ];
 
-$listUsers = getRaw("SELECT * FROM users ORDER BY update_at ");
+$id = getSession('id_user');
+$listUsers = getRaw("SELECT * FROM users WHERE id != $id ORDER BY update_at");
 
 $msg = getFlashData('msg');
 $msg_type = getFlashData('msg_type');
@@ -61,6 +62,7 @@ $msg_type = getFlashData('msg_type');
                                 <thead>
                                     <th>STT</th>
                                     <th>Họ tên</th>
+                                    <th>Phân quyền</th>
                                     <th>Email</th>
                                     <th>Số điện thoại</th>
                                     <th>Trạng thái</th>
@@ -76,6 +78,7 @@ $msg_type = getFlashData('msg_type');
                                     ?>
                                         <tr>
                                             <td><?php echo $count; ?></td>
+                                            <td><?php echo $item['fullname']; ?></td>
                                             <td><?php echo $item['fullname']; ?></td>
                                             <td><?php echo $item['email']; ?></td>
                                             <td><?php echo $item['phone']; ?></td>

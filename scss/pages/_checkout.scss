@@ -321,6 +321,14 @@
         &-btn {
             display: flex;
         }
+
+        &-quantity{
+            font-size: 16px;
+            font-weight: 400;
+            height: inherit;
+            text-align: center;
+            width: 28px;
+        }
     }
 
     &__total-price {

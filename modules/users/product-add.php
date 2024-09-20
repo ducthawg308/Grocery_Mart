@@ -1,3 +1,4 @@
+<script src="<?php echo _WEB_HOST_ASSETS?>/js/ckeditor/ckeditor.js"></script>
 <!-- Thêm sản phẩm -->
 <?php
 if(!defined('_CODE')){
@@ -85,7 +86,6 @@ $errors = getFlashData('error');
 $old = getFlashData('old');
 
 ?>
-
 <main class="auth">
     <!-- Auth content -->
     <div class="auth__content">
@@ -101,64 +101,65 @@ $old = getFlashData('old');
                 } 
             ?>
             <form action="" method="post" class="auth__form" enctype="multipart/form-data">
-                <div class="form__group">
-                    <div class="form__text-input">
-                        <input type="file" name="thumbnail" id="">
-                    </div>
-                    <?php
-                        echo form_error('thumbnail','<span class="form__message-error">','</span>',$errors);
-                    ?>
-                </div>
-                <div class="form__group">
-                    <select name="category_id" id="" class="form__control">
+                <div class="form__row">
+                    <div class="form__group">
+                        <div class="form__text-input">
+                            <input type="file" name="thumbnail" id="">
+                        </div>
                         <?php
-                            foreach($category as $item):
+                            echo form_error('thumbnail','<span class="form__message-error">','</span>',$errors);
                         ?>
-                        <option value="<?php echo ($item['id']); ?>"><?php echo($item['name']); ?></option>
+                    </div>
+                    <div class="form__group">
+                        <select name="category_id" id="" class="form__control">
+                            <?php
+                                foreach($category as $item):
+                            ?>
+                            <option value="<?php echo ($item['id']); ?>"><?php echo($item['name']); ?></option>
+                            <?php
+                                endforeach;
+                            ?>
+                        </select>
+                    </div>
+                    <div class="form__group">
+                        <div class="form__text-input">
+                            <input type="text" name="title" id="" class="form__input" placeholder="Nhập tên sản phẩm" value="<?php echo old('title',$old) ?>">
+                        </div>
                         <?php
-                            endforeach;
+                            echo form_error('title','<span class="form__message-error">','</span>',$errors);
                         ?>
-                    </select>
-                </div>
-                <div class="form__group">
-                    <div class="form__text-input">
-                        <input type="text" name="title" id="" class="form__input" placeholder="Nhập tên sản phẩm" value="<?php echo old('title',$old) ?>">
-                        <img src="./assets/icons/message.svg" alt="" class="form__input-icon">
                     </div>
-                    <?php
-                        echo form_error('title','<span class="form__message-error">','</span>',$errors);
-                    ?>
                 </div>
-                <div class="form__group">
-                    <div class="form__text-input">
-                        <input type="text" name="brand" id="" class="form__input" placeholder="Nhập nhà sản xuất" value="<?php echo old('brand',$old) ?>">
-                        <img src="./assets/icons/message.svg" alt="" class="form__input-icon">
+                <div class="form__row">
+                    <div class="form__group">
+                        <div class="form__text-input">
+                            <input type="text" name="brand" id="" class="form__input" placeholder="Nhập nhà sản xuất" value="<?php echo old('brand',$old) ?>">
+                        </div>
+                        <?php
+                            echo form_error('brand','<span class="form__message-error">','</span>',$errors);
+                        ?>
                     </div>
-                    <?php
-                        echo form_error('brand','<span class="form__message-error">','</span>',$errors);
-                    ?>
-                </div>
-                <div class="form__group">
-                    <div class="form__text-input">
-                        <input type="number" name="price" id="" class="form__input" placeholder="Nhập giá bán" value="<?php echo old('price',$old) ?>">
-                        <img src="./assets/icons/message.svg" alt="" class="form__input-icon">
+                    <div class="form__group">
+                        <div class="form__text-input">
+                            <input type="number" name="price" id="" class="form__input" placeholder="Nhập giá bán" value="<?php echo old('price',$old) ?>">
+                        </div>
+                        <?php
+                            echo form_error('price','<span class="form__message-error">','</span>',$errors);
+                        ?>
                     </div>
-                    <?php
-                        echo form_error('price','<span class="form__message-error">','</span>',$errors);
-                    ?>
-                </div>
-                <div class="form__group">
-                    <div class="form__text-input">
-                        <input type="number" name="discount" id="" class="form__input" placeholder="Nhập giá bán đã giảm giá" value="<?php echo old('discount',$old) ?>">
-                        <img src="./assets/icons/lock.svg" alt="" class="form__input-icon">
+                    <div class="form__group">
+                        <div class="form__text-input">
+                            <input type="number" name="discount" id="" class="form__input" placeholder="Nhập giá bán đã giảm giá" value="<?php echo old('discount',$old) ?>">
+                        </div>
+                        <?php
+                            echo form_error('discount','<span class="form__message-error">','</span>',$errors);
+                        ?>
                     </div>
-                    <?php
-                        echo form_error('discount','<span class="form__message-error">','</span>',$errors);
-                    ?>
                 </div>
                 <div class="form__group">
                     <div class="form__text-input">
-                        <input type="text" name="description" id="" class="form__input" placeholder="Nhập mô tả sản phẩm" value="<?php echo old('description',$old) ?>">
+                        <!-- <input type="text" name="description" id="description" class="form__input" placeholder="Nhập mô tả sản phẩm" value="<?php echo old('description',$old) ?>"> -->
+                        <textarea name="description" id="description"></textarea>
                         <img src="./assets/icons/message.svg" alt="" class="form__input-icon">
                     </div>
                     <?php
@@ -173,7 +174,7 @@ $old = getFlashData('old');
         </div>
     </div>
 </main>
-
-<?php
-
-?>
+<script>
+    // Replace 'description' with the ID of your textarea
+    CKEDITOR.replace('description');
+</script>

@@ -6,6 +6,10 @@ if (!defined('_CODE')) {
 $data = [
     'pageTitle' => 'Grocery Mart'
 ];
+
+$id_user = getSession('id_user');
+
+$listAddress = getRaw("SELECT name, phone, province, address_detail FROM address WHERE user_id = '$id_user'");
 ?>
 
 <!DOCTYPE html>
@@ -103,79 +107,58 @@ $data = [
                                                     <a class="user-address__link js-toggle" href="#!" toggle-target="#add-new-address">Add a new address</a>
                                                 </p> -->
 
-                                                <!-- Address card 1 -->
-                                                <article class="address-card">
-                                                    <div class="address-card__left">
-                                                        <div class="address-card__choose">
-                                                            <label class="cart-info__checkbox">
-                                                                <input
-                                                                    type="radio"
-                                                                    name="shipping-adress"
-                                                                    checked
-                                                                    class="cart-info__checkbox-input"
-                                                                />
-                                                            </label>
+                                                <?php
+                                                    if(!empty($listAddress)):
+                                                        $count = 0;
+                                                        foreach($listAddress as $item):
+                                                            $count++;
+                                                ?>
+                                                    <!-- Address card <?php $count ?> -->
+                                                    <article class="address-card">
+                                                        <div class="address-card__left">
+                                                            <div class="address-card__choose">
+                                                                <label class="cart-info__checkbox">
+                                                                    <input
+                                                                        type="radio"
+                                                                        name="shipping-adress"
+                                                                        checked
+                                                                        class="cart-info__checkbox-input"
+                                                                    />
+                                                                </label>
+                                                            </div>
+                                                            <div class="address-card__info">
+                                                                <h3 class="address-card__title"><?php echo $item['name']; ?></h3>
+                                                                <p class="address-card__desc">
+                                                                    <?php echo $item['phone']; ?>
+                                                                </p>
+                                                                <p class="address-card__desc">
+                                                                    <?php echo $item['province']; ?>
+                                                                </p>
+                                                                <p class="address-card__desc">
+                                                                    <?php echo $item['address_detail']; ?>    
+                                                                </p>
+                                                                <ul class="address-card__list">
+                                                                    <li class="address-card__list-item">Shipping</li>
+                                                                    <li class="address-card__list-item">Delivery from store</li>
+                                                                </ul>
+                                                            </div>
                                                         </div>
-                                                        <div class="address-card__info">
-                                                            <h3 class="address-card__title">Imran Khan</h3>
-                                                            <p class="address-card__desc">
-                                                                Museum of Rajas, Sylhet Sadar, Sylhet 3100.
-                                                            </p>
-                                                            <ul class="address-card__list">
-                                                                <li class="address-card__list-item">Shipping</li>
-                                                                <li class="address-card__list-item">Delivery from store</li>
-                                                            </ul>
+                                                        <div class="address-card__right">
+                                                            <div class="address-card__ctrl">
+                                                                <button
+                                                                    class="cart-info__edit-btn js-toggle"
+                                                                    toggle-target="#add-new-address"
+                                                                >
+                                                                    <img class="icon" src="./assets/icons/edit.svg" alt="" />
+                                                                    Edit
+                                                                </button>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="address-card__right">
-                                                        <div class="address-card__ctrl">
-                                                            <button
-                                                                class="cart-info__edit-btn js-toggle"
-                                                                toggle-target="#add-new-address"
-                                                            >
-                                                                <img class="icon" src="./assets/icons/edit.svg" alt="" />
-                                                                Edit
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </article>
-
-                                                <!-- Address card 2 -->
-                                                <article class="address-card">
-                                                    <div class="address-card__left">
-                                                        <div class="address-card__choose">
-                                                            <label class="cart-info__checkbox">
-                                                                <input
-                                                                    type="radio"
-                                                                    name="shipping-adress"
-                                                                    class="cart-info__checkbox-input"
-                                                                />
-                                                            </label>
-                                                        </div>
-                                                        <div class="address-card__info">
-                                                            <h3 class="address-card__title">Imran Khan</h3>
-                                                            <p class="address-card__desc">
-                                                                Al Hamra City (10th Floor), Hazrat Shahjalal Road, Sylhet,
-                                                                Sylhet, Bangladesh
-                                                            </p>
-                                                            <ul class="address-card__list">
-                                                                <li class="address-card__list-item">Shipping</li>
-                                                                <li class="address-card__list-item">Delivery from store</li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <div class="address-card__right">
-                                                        <div class="address-card__ctrl">
-                                                            <button
-                                                                class="cart-info__edit-btn js-toggle"
-                                                                toggle-target="#add-new-address"
-                                                            >
-                                                                <img class="icon" src="./assets/icons/edit.svg" alt="" />
-                                                                Edit
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </article>
+                                                    </article>
+                                                <?php
+                                                        endforeach;
+                                                    endif;
+                                                ?>
                                             </div>
                                         </div>
 
@@ -610,6 +593,13 @@ $data = [
 
     <?php
         endif;
+        if (!empty($_SESSION)) {
+            echo '<pre>';
+            print_r($_SESSION);
+            echo '</pre>';
+        } else {
+            echo 'Không có dữ liệu nào trong session.';
+        }
     ?>
     </body>
 </html>
